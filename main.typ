@@ -20,7 +20,7 @@
   pub_date: datetime.today(),
   authors: (
     (
-      name: "Lie, Steven Staria Nugraha",
+      name: "Steven Staria Nugraha",
       department_id: 1,
       email: "111202214433@mhs.dinus.ac.id",
     ),
