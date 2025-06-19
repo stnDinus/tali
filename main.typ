@@ -129,8 +129,85 @@ yang dapat dilakukan dari 2 tipe ke 4 tipe seperti yang dicantumkan pada @types.
   caption: "Tipe commit yang akan diklasifikasikan",
 ) <types>
 
+== Transformer <intro-transformer>
+
+Model-model _machine learning_ berbasis transformer akan digunakan untuk
+mengklasifikasikan tipe-tipe commit. Penjelasan alasan penggunaan model-model
+transformer akan dibahas pada @classification-method. Model-model transformer
+umumnya memiliki bagian arsitektur encoder, yang bekerja untuk memetakan masukan
+menjadi token yang dapat dipahami oleh sebuah komputer dan bagian arsitektur
+decoder yang bekerja untuk memetakan kembali token-token yang telah diproses
+menjadi tipe keluaran yang diinginkan
+
 = Metode
+
+// TODO: data mining
+
+== Klasifikasi <classification-method>
+
+Seperti yang ditulis pada @intro-transformer, metode klasifikasi yang digunakan
+untuk penelitian ini melibatkan penggunaan model transformer. Penggunaan
+model-model transformer dikarenakan model-model ini dapat memahami konteks dari
+sebuah kutipan kode, sifat ini sangat penting untuk menentukan kategori tipe
+commit yang akan diklasifikasikan.
+
+Pada lingkup penelitian ini, bagian decoder dari sebuah model transformer tidak
+relevan, dikarenakan untuk proses klasifikasi tidak diperlukan keluaran spesifik
+yang tidak dapat diproses oleh algoritma sederhana. Sehingga penggunaan sebuah
+decoder, yang umumnya memiliki kompleksitas algoritma yang lebih tinggi hanya
+akan memboroskan sumber daya dan waktu komputasi.
+
+=== Model yang Digunakan
+
+Tiga model yang dipertimbangkan untuk mengklasifikasikan perubahan pada
+penelitian ini yaitu CodeBERT@codebert, CodeT5@codet5 dan CodeT5+@codet5p.
+
+CodeBERT merupakan perkembangan dari BERT (Bidirectional Encoder Representations
+from Transformer), model transformer yang identik dengan sifat pemahaman dua
+arah (_bidirectional_), sehingga model ini memiliki keunggulan di pemahaman
+konteks. Model-model BERT pada umumnya juga hanya mengimplementasikan bagian
+encoder dari sebuah transformer, sehingga sangat cocok digunakan untuk proses
+klasifikasi. CodeBERT dapat mengklasifikasikan kecacatan pada perangkat lunak
+dengan akurasi antara 62.08%@codet5 dan 64.31%@gfsa. Sesuai dengan waktu
+publikasi dokumen penelitian-nya, model ini terbit padat tahun 2020 oleh
+peneliti-peneliti di Microsoft.
+
+Sedangkan CodeT5 merupakan model transformer lebih baru dibandingkan dengan
+CodeBERT, model ini diterbitkan pada tahun 2021 oleh tim peneliti di Salesforce.
+CodeT5 merupakan penerusan dari model transformer T5 yang pertama diterbitkan
+oleh Google pada tahun 2019@t5. Model-model berbasis T5 umumnya
+mengimplementasikan encoder dan decoder, sehingga penggunaan model-model ini
+untuk proses klasifikasi kurang tepat. Namun, CodeT5 memiliki nilai akurasi
+deteksi kecacatan yang lebih tinggi secara rata-rata: 63.25%@gfsa hingga
+65.78%@codet5, tergantung dengan jumlah parameter antara penyesuaian lain.
+
+Perkembangan dari CodeT5: CodeT5+, diterbitkan pada tahun 2023 juga oleh tim
+peneliti Salesforce. Model ini meningkatkan akurasi deteksi kecacatan dari
+CodeT5 secara signifikan dengan nilai antara 66.1%@codet5p hingga 66.7%@codet5p.
+Selain itu, CodeT5+ juga memberikan varian encoder dan decoder yang terpisah,
+sehingga dapat dioptimalkan untuk penggunaan klasifikasi, menggunakan varian encoder.
+
+// TODO: bias peneliti
+
+#figure(
+  table(
+    columns: 4,
+    table.header(
+      [Model],
+      [Arsitektur Transformer],
+      [Akurasi Deteksi Kecacatan],
+      [Tahun Terbit],
+    ),
+
+    [CodeBERT], [Encoder], [62.08% - 64.31%], [2020],
+    [CodeT5], [Encoder dan decoder], [63.25% - 65.78%], [2021],
+    [CodeT5+], [Encoder, decoder atau keduanya], [66.1% - 66.7%], [2023],
+  ),
+  caption: "Perbandingan model-model yang dipertimbangkan",
+)
 
 = Hasil dan Pembahasan
 
 = Kesimpulan
+
+#bibliography("refs.bib")
