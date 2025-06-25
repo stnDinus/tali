@@ -40,8 +40,6 @@ VCS pada umumnya menyimpan versi-versi perubahan perangkat lunak@Zolkifli2018-eb
 yang memperbolehkan seorang pengembang perangkat lunak untuk kembali ke versi
 proyek yang diinginkan@Spinellis2005-fh.
 
-== Git
-
 Git merupakan VCS yang paling sering digunakan dalam pengembangan proyek
 perangkat lunak masa kini. Dua konsep Git yang relevan dalam artikel ini
 merupakan konsep repository dan commit.
@@ -51,8 +49,6 @@ akan dikelola oleh Git@chacon2014pro
 Sedangkan sebuah commit merupakan _checkpoint_ atau titik perubahan yang terjadi
 pada sebuah proyek perangkat lunak. Setiap commit dihimbau untuk memiliki pesan
 terkait perubahan yang terjadi@chacon2014pro.
-
-== Conventional Commits
 
 Pesan untuk sebuah commit berbentuk teks dengan format bebas. Untuk memberi
 keseragaman pesan commit terdapat sebuah standar baru bernama Conventional
@@ -132,15 +128,14 @@ yang dapat dilakukan dari 2 tipe ke 4 tipe seperti yang dicantumkan pada @types.
   caption: "Tipe commit yang akan diklasifikasikan",
 ) <types>
 
-== Transformer <intro-transformer>
 
-Model-model _machine learning_ berbasis transformer akan digunakan untuk
-mengklasifikasikan tipe-tipe commit. Penjelasan alasan penggunaan model-model
-transformer akan dibahas pada @classification-method. Model-model transformer
-umumnya memiliki bagian arsitektur encoder, yang bekerja untuk memetakan masukan
-menjadi token yang dapat dipahami oleh sebuah komputer dan bagian arsitektur
-decoder yang bekerja untuk memetakan kembali token-token yang telah diproses
-menjadi tipe keluaran yang diinginkan@Tunstall2022-iq.
+Untuk melakukan klasifikasi tipe commit, model-model _machine learning_ berbasis
+transformer akan digunakan. Penjelasan alasan penggunaan model-model transformer
+akan dibahas pada @classification-method. Model-model transformer umumnya
+memiliki bagian arsitektur encoder, yang bekerja untuk memetakan masukan menjadi
+token yang dapat dipahami oleh sebuah komputer dan bagian arsitektur decoder
+yang bekerja untuk memetakan kembali token-token yang telah diproses menjadi
+tipe keluaran yang diinginkan@Tunstall2022-iq.
 
 = Metode
 
@@ -148,11 +143,10 @@ menjadi tipe keluaran yang diinginkan@Tunstall2022-iq.
 
 == Klasifikasi <classification-method>
 
-Seperti yang ditulis pada @intro-transformer, metode klasifikasi yang digunakan
-untuk penelitian ini melibatkan penggunaan model transformer. Penggunaan
-model-model transformer dikarenakan model-model ini dapat memahami konteks dari
-sebuah kutipan kode, sifat ini sangat penting untuk menentukan kategori tipe
-commit yang akan diklasifikasikan.
+Metode klasifikasi yang digunakan untuk penelitian ini melibatkan penggunaan
+model transformer. Penggunaan model-model transformer dikarenakan model-model
+ini dapat memahami konteks dari sebuah kutipan kode, sifat ini sangat penting
+untuk menentukan kategori tipe commit yang akan diklasifikasikan.
 
 Pada lingkup penelitian ini, bagian decoder dari sebuah model transformer tidak
 relevan, dikarenakan untuk proses klasifikasi tidak diperlukan keluaran spesifik
