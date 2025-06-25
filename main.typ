@@ -35,8 +35,10 @@
 Salah satu alat yang digunakan di dalam proses pengembangan perangkat lunak
 merupakan penggunaan sebuah VCS. Version Control System atau biasa disingkat
 sebagai VCS merupakan tipe alat yang membantu pengembang perangkat lunak
-menjejakkan perubahan seiring perkembangan sebuah proyek perangkat
-lunak@Spinellis2005-fh.
+menjejakkan perubahan seiring perkembangan sebuah proyek perangkat lunak. Sebuah
+VCS pada umumnya menyimpan versi-versi perubahan perangkat lunak@Zolkifli2018-eb
+yang memperbolehkan seorang pengembang perangkat lunak untuk kembali ke versi
+proyek yang diinginkan@Spinellis2005-fh.
 
 == Git
 
