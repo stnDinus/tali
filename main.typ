@@ -16,7 +16,8 @@
 // - keywords
 // - title
 #show: abdimasku.with(
-  title: [Klasifikasi Perubahan di _Repository_ Git],
+  title: [Klasifikasi Perubahan di _Repository_ Git Menggunakan Model
+    Transformer],
   pub_date: datetime.today(),
   authors: (
     (
