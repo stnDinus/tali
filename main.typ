@@ -35,7 +35,8 @@
 Salah satu alat yang digunakan di dalam proses pengembangan perangkat lunak
 merupakan penggunaan sebuah VCS. Version Control System atau biasa disingkat
 sebagai VCS merupakan tipe alat yang membantu pengembang perangkat lunak
-menjejakkan perubahan seiring perkembangan sebuah proyek perangkat lunak.
+menjejakkan perubahan seiring perkembangan sebuah proyek perangkat
+lunak@Spinellis2005-fh.
 
 == Git
 
@@ -44,16 +45,16 @@ perangkat lunak masa kini. Dua konsep Git yang relevan dalam artikel ini
 merupakan konsep repository dan commit.
 Sebuah repository merupakan folder yang berisi basis kode serta file-file terkait
 sebuah proyek perangkat lunak. Perubahan-perubahan yang terjadi di folder ini
-akan dikelola oleh Git.
+akan dikelola oleh Git@chacon2014pro
 Sedangkan sebuah commit merupakan _checkpoint_ atau titik perubahan yang terjadi
 pada sebuah proyek perangkat lunak. Setiap commit dihimbau untuk memiliki pesan
-terkait perubahan yang terjadi.
+terkait perubahan yang terjadi@chacon2014pro.
 
 == Conventional Commits
 
 Pesan untuk sebuah commit berbentuk teks dengan format bebas. Untuk memberi
 keseragaman pesan commit terdapat sebuah standar baru bernama Conventional
-Commits.
+Commits@conventional-commits.
 // TODO: Conventional Commits history
 Sesuai dengan namanya, standar ini memberi konvensi terhadap pesan sebuah
 commit. Menurut spesifikasinya, sebuah pesan konvensional memiliki format
@@ -137,7 +138,7 @@ transformer akan dibahas pada @classification-method. Model-model transformer
 umumnya memiliki bagian arsitektur encoder, yang bekerja untuk memetakan masukan
 menjadi token yang dapat dipahami oleh sebuah komputer dan bagian arsitektur
 decoder yang bekerja untuk memetakan kembali token-token yang telah diproses
-menjadi tipe keluaran yang diinginkan
+menjadi tipe keluaran yang diinginkan@Tunstall2022-iq.
 
 = Metode
 
