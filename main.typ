@@ -129,7 +129,6 @@ yang dapat dilakukan dari 2 tipe ke 4 tipe seperti yang dicantumkan pada @types.
   caption: "Tipe commit yang akan diklasifikasikan",
 ) <types>
 
-
 Untuk melakukan klasifikasi tipe commit, model-model _machine learning_ berbasis
 transformer akan digunakan. Penjelasan alasan penggunaan model-model transformer
 akan dibahas pada @classification-method. Model-model transformer umumnya
@@ -181,12 +180,9 @@ Pada lingkup penelitian ini, bagian decoder dari sebuah model transformer tidak
 relevan, dikarenakan untuk proses klasifikasi tidak diperlukan keluaran spesifik
 yang tidak dapat diproses oleh algoritma sederhana. Sehingga penggunaan sebuah
 decoder, yang umumnya memiliki kompleksitas algoritma yang lebih tinggi hanya
-akan memboroskan sumber daya dan waktu komputasi.
-
-=== Model yang Digunakan
-
-Tiga model yang dipertimbangkan untuk mengklasifikasikan perubahan pada
-penelitian ini yaitu CodeBERT@codebert, CodeT5@codet5 dan CodeT5+@codet5p.
+akan memboroskan sumber daya dan waktu komputasi. Tiga model yang
+dipertimbangkan untuk mengklasifikasikan perubahan pada penelitian ini yaitu
+CodeBERT@codebert, CodeT5@codet5 dan CodeT5+@codet5p.
 
 CodeBERT merupakan perkembangan dari BERT (Bidirectional Encoder Representations
 from Transformer), model transformer yang identik dengan sifat pemahaman dua
