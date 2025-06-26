@@ -51,6 +51,18 @@ Sedangkan sebuah commit merupakan _checkpoint_ atau titik perubahan yang terjadi
 pada sebuah proyek perangkat lunak. Setiap commit dihimbau untuk memiliki pesan
 terkait perubahan yang terjadi@chacon2014pro.
 
+Tanpa permintaan eksplisit (yaitu menggunakan _flag_ `--allow-empty-message`),
+pengembang yang menggunakan Git diwajibkan untuk menulis pesan saat merancang
+sebuah commit. Sehingga tanggung jawab penulisan pesan turun ke pengembang.
+Walaupun pesan commit berfungsi sebagai identifikasi semantik utama sebuah
+commit, proses ini dapat menjadi salah satu hambatan waktu dan tenaga untuk
+pengembang. Salah satu tujuan dari penelitian ini adalah untuk membantu
+pengembang perangkat lunak untuk mengotomatiskan sebagian proses penulisan pesan
+saat perancangan sebuah commit. Selain itu, proses otomatisasi pada umumnya juga
+menimbulkan standardisasi; sehingga, penelitian ini juga dapat berguna untuk
+membantu khususnya pengembang-pengembang pemula untuk menulis pesan commit
+berstandar.
+
 Pesan untuk sebuah commit berbentuk teks dengan format bebas. Untuk memberi
 keseragaman pesan commit terdapat sebuah standar baru bernama Conventional
 Commits@conventional-commits.
