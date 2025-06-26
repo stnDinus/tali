@@ -138,6 +138,34 @@ token yang dapat dipahami oleh sebuah komputer dan bagian arsitektur decoder
 yang bekerja untuk memetakan kembali token-token yang telah diproses menjadi
 tipe keluaran yang diinginkan@Tunstall2022-iq.
 
+== Penelitian Terkait
+
+GCC (Git Change Classifier) merupakan alat yang juga mengklasifikasikan
+perubahan pada repository Git@Kaur2018-bh. GCC menggunakan ekspresi reguler
+sebagai metode klasifikasi yang digunakan. Tipe-tipe perubahan yang
+diklasifikasikan dengan GCC jatuh pada 3 kelompok, yaitu: Bug Repairing Changes
+(BRC), Feature Introducing Changes (FIC) dan General Changes (GC). BRC setara
+dengan tipe `fix` dan FIC setara dengan tipe `feat` sedangkan GC merupakan
+perubahan generik. GCC tidak mengklasifikasikan perubahan merusak. Terdapat juga
+berbagai penelitian yang menggunakan machine learning untuk klasifikasi commit,
+antara lain: penelitian @9307651 yang menghasilkan nilai F1 87% dan penelitian
+@levin menghasilkan nilai akurasi 76%. Kedua penelitian ini@levin@9307651
+menggunakan pengelompokan @swansondimensions yang mengklasifikasikan tipe
+perubahan menjadi "_Corrective_", "_Adaptive_" dan "_Perfective_". Perubahan
+_corrective_ merupakan tipe perubahan yang memperbaiki kecacatan, _adaptive_
+merupakan penambahan fitur dan _perfective_ merupakan peningkatan kinerja. Jika
+dibandingkan dengan tipe-tipe Conventional Commits, tipe _corrective_ memiliki
+arti semantik yang sama dengan tipe `fix` dan tipe _adaptive_ dengan tipe
+`feat`, sedangkan tipe _perfective_ tidak memiliki tipe sebanding yang
+didiskusikan pada lingkup penelitian ini. Perbedaan antara penelitian @levin dan
+@9307651 terletak pada penerapan metode yang digunakan, @9307651 menggunakan
+model transformer DistilBERT@distilbert untuk mempertimbangkan klasifikasi tipe
+perubahan dari pesan commit, sedangkan @levin mengembangkan model secara
+independen yang mempertimbangkan perubahan pada kode, dan frekuensi kata pada
+pesan commit. Walaupun hasil yang memuaskan, penelitian @levin dan @9307651 juga
+tidak melakukan klasifikasi tipe perubahan yang merusak, dan kedua penelitian
+tersebut memiliki ketergantungan dengan pesan commit yang telah tertulis.
+
 = Metode
 
 // TODO: data mining
