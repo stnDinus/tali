@@ -274,8 +274,13 @@ sehingga dapat dioptimalkan untuk penggunaan klasifikasi, menggunakan varian enc
     [CodeT5+], [Encoder, decoder atau keduanya], [66.1% - 66.7%], [2023],
   ),
   caption: "Perbandingan model-model yang dipertimbangkan",
-)
+) <models_cmp>
 
+Seperti yang tercantum pada @models_cmp, model dengan rentang akurasi tertinggi
+saat digunakan untuk mendeteksi kecacatan merupakan CodeT5+. Selain itu, model
+ini juga memiliki tahun terbit terkini yang dapat mengklasifikasikan model ini
+sebagai model _state of the art_. Sehingga, model inilah yang akan digunakan
+pada penelitian ini.
 = Hasil dan Pembahasan
 
 = Kesimpulan
