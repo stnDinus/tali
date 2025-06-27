@@ -1,4 +1,6 @@
 #import "@local/abdimasku-template:0.0.1": abdimasku
+#import "@preview/fletcher:0.5.8"
+#import fletcher: diagram, edge, node, shapes.cylinder
 
 #show table.cell: it => {
   if it.y == 0 {
@@ -178,6 +180,41 @@ tidak melakukan klasifikasi tipe perubahan yang merusak, dan kedua penelitian
 tersebut memiliki ketergantungan dengan pesan commit yang telah tertulis.
 
 = Metode
+
+#figure(
+  {
+    diagram(debug: false, node-stroke: black, node-shape: rect, {
+      node(name: <gh>, (1, -1), [GitHub], shape: cylinder)
+      node(name: <preproc>, (1, 0), [Preprocessing])
+      let dsn = node.with(shape: cylinder)
+      dsn(name: <ds2>, (2, 0), [
+        #set align(left)
+        #set par(first-line-indent: 0em, justify: false)
+        #set list(indent: 0em)
+        Dataset dengan label:
+        - `feat`
+        - `fix`
+        - `breaking`
+      ])
+      let t5p = node.with()
+      t5p(name: <t52>, (5, 0), [CodeT5+])
+
+      edge(<gh>, <preproc>, "->")
+      edge(<preproc>, <ds2>, "->")
+      edge(<ds2>, <t52>, "->", bend: 15deg, [$90%$ training])
+      edge(<ds2>, <t52>, "->", bend: -15deg, [$10%$ testing])
+
+      node(
+        inset: 1.5em,
+        enclose: (<gh>, <preproc>, <ds2>),
+        name: <mining>,
+        place(bottom + center, dy: 3em)[Penambangan Data],
+      )
+    })
+  },
+  gap: 3em,
+  caption: [Gambaran diagram untuk metode yang diusulkan],
+)
 
 // TODO: data mining
 
