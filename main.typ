@@ -16,10 +16,9 @@
 // TODO:
 // - abstract
 // - keywords
-// - title
 #show: abdimasku.with(
-  title: [Klasifikasi Perubahan di _Repository_ Git Menggunakan Model
-    Transformer],
+  title: [Klasifikasi Perubahan _Repository_ Git Menggunakan Transformer
+    CodeT5+],
   pub_date: datetime.today(),
   authors: (
     (
