@@ -196,13 +196,17 @@ tersebut memiliki ketergantungan dengan pesan commit yang telah tertulis.
         - `breaking`
       ])
       let t5p = node.with()
-      t5p(name: <t52>, (5, 0), [CodeT5+])
+      t5p(name: <t52>, (7, 0), [CodeT5+])
 
       edge(<gh>, <preproc>, "->")
       edge(<preproc>, <ds2>, "->")
       edge(<ds2>, <t52>, "->", bend: 15deg, [$90%$ training])
       edge(<ds2>, <t52>, "->", bend: -15deg, [$10%$ testing])
 
+      node(inset: 3.2em, enclose: ((4, 0), (7, 0)), place(
+        bottom + center,
+        dy: 4.5em,
+      )[Klasifikasi])
       node(
         inset: 1.5em,
         enclose: (<gh>, <preproc>, <ds2>),
