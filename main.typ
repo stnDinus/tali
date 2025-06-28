@@ -223,6 +223,32 @@ tersebut memiliki ketergantungan dengan pesan commit yang telah tertulis.
 
 == Klasifikasi <classification-method>
 
+Seperti yang tercantum di @t_notation, tipe perubahan $P$ diklasifikasikan
+sebagai perubahan `feat` $p_1$, jika nilai label `feat` $l_1$ lebih dari nilai
+label `fix` $l_2$. Sedangkan, $T$ merupakan perubahan `fix` $p_2$, jika $l_1$
+kurang dari atau sama dengan $l_2$, dan $l_2$ lebih dari _threshold_ (batasan)
+$t_t$. Jika semua kondisi sebelumnya tidak terpenuhi (maka $l_1 <= 0 and l_2 <=
+t$), maka tidak tipe $T$ tidak dapat diklasifikasikan sebagai `feat` atau `fix`
+dengan tingkat kepercayaan yang mencukupi, atau dinotasikan $T = nothing$.
+Seperti yang tercantum pada @b_notation, perubahan pada sebuah commit dapat
+diklasifikasikan sebagai perubahan merusak $b_1$, jika nilai label `breaking`
+$l_3$ lebih dari _threshold_ $t_b$. Jika $l_3$ kurang dari atau sama dengan
+$t_b$, maka perubahan commit dapat diklasifikasikan sebagai perubahan yang tidak
+merusak.
+$
+  P = cases(
+    p_1 & "if" l_1 > l_2,
+    p_2 & "if" l_1 <= l_2 > t_t,
+    nothing & "else"
+  )
+$ <t_notation>
+$
+  B = cases(
+    b_1 & "if" l_3 > t_b,
+    b_2 & "else",
+  )
+$ <b_notation>
+
 Metode klasifikasi yang digunakan untuk penelitian ini melibatkan penggunaan
 model transformer. Penggunaan model-model transformer dikarenakan model-model
 ini dapat memahami konteks dari sebuah kutipan kode, sifat ini sangat penting
