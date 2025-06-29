@@ -9,8 +9,9 @@
   it
 }
 
+#let thead_fill = gray.lighten(40%)
 #set table(fill: (x, y) => {
-  if y == 0 { gray.lighten(40%) }
+  if y == 0 { thead_fill }
 })
 
 // TODO:
@@ -183,14 +184,20 @@ tersebut memiliki ketergantungan dengan pesan commit yang telah tertulis.
 #figure(
   {
     diagram(debug: false, node-stroke: black, node-shape: rect, {
-      node(name: <gh>, (1, -1), [GitHub], shape: cylinder)
+      node(
+        name: <gh>,
+        (1, -1),
+        box(width: 5em)[Neovim Commits],
+        shape: cylinder,
+      )
       node(name: <preproc>, (1, 0), [Preprocessing])
       let dsn = node.with(shape: cylinder)
       dsn(name: <ds2>, (2, 0), [
         #set align(left)
         #set par(first-line-indent: 0em, justify: false)
         #set list(indent: 0em)
-        Dataset dengan label:
+        Dataset dengan kolom:
+        - `diff`
         - `feat`
         - `fix`
         - `breaking`
@@ -216,10 +223,83 @@ tersebut memiliki ketergantungan dengan pesan commit yang telah tertulis.
     })
   },
   gap: 3em,
-  caption: [Gambaran diagram untuk metode yang diusulkan],
+  caption: [Diagram rangkuman metode yang diusulkan],
 )
 
-// TODO: data mining
+Dataset yang digunakan pada penelitian ini akan memiliki 4 kolom dengan 1 kolom
+fitur teks dan 3 kolom label numerik. Kolom fitur `diff` merupakan isi teks yang
+didapatkan saat menjalankan perintah "```sh git diff```" (serupa dengan @diff_eg).
+Sedangkan, kolom-kolom label pada dataset adalah yaitu: `feat`, `fix` dan
+`breaking`. Masing-masing kolom label berisi representasi nilai kepercayaan
+untuk masing-masing tipe. Kolom `breaking` merepresentasikan nilai kepastian
+_breaking change_ atau perubahan merusak.
+
+#figure(
+  ```diff
+    diff --git a/runtime/lua/vim/lsp/diagnostic.lua b/runtime/lua/vim/lsp/diagnostic.lua
+  index 661495ecb9..97d4dce19d 100644
+  --- a/runtime/lua/vim/lsp/diagnostic.lua
+  +++ b/runtime/lua/vim/lsp/diagnostic.lua
+  @@ -443,16 +443,16 @@ end
+   --- Returns the result IDs from the reports provided by the given client.
+   --- @return lsp.PreviousResultId[]
+   local function previous_result_ids(client_id)
+  -  local results = {}
+  +  local results = {} ---@type lsp.PreviousResultId[]
+
+     for bufnr, state in pairs(bufstates) do
+       if state.pull_kind ~= 'disabled' then
+         for buf_client_id, result_id in pairs(state.client_result_id) do
+           if buf_client_id == client_id then
+  -          table.insert(results, {
+  -            textDocument = util.make_text_document_params(bufnr),
+  -            previousResultId = result_id,
+  -          })
+  +          results[#results + 1] = {
+  +            uri = vim.uri_from_bufnr(bufnr),
+  +            value = result_id,
+  +          }
+             break
+           end
+         end
+  ```,
+  caption: [Contoh isi penuh kolom `diff`, yaitu potongan dari hasil perintah
+    "```sh git show 4ee2e```" yang dijalankan pada repository Neovim (dilakukan
+    dengan Git versi 2.49.0)],
+) <diff_eg>
+
+#figure(
+  table(
+    columns: 4,
+    table.header([diff], [feat], [fix], [breaking]),
+
+    [`diff --git a/ru`$dots$], [0.64], [0.21], [0.16],
+    ..for i in range(4) { ([$dots.v$],) }
+  ),
+  caption: [Contoh struktur dataset yang digunakan],
+) <dataset_shape>
+
+== Penambangan Data
+
+Pada saat penelitian ini, belum terdapat dataset berisi fitur-fitur dan label
+yang dibutuhkan (lihat @dataset_shape). Oleh karena itu, pengembangan dataset
+perlu dilakukan terlebih dahulu. Untuk mengembangkan dataset yang diinginkan,
+diperlukan repository yang menggunakan standar Conventional Commits. Salah satu
+proyek perangkat lunak yang menggunakan standar commit Conventional Commits
+dengan sumber kode yang terbuka, adalah Neovim@neovim_repo. Repository ini
+memiliki lebih dari 30 ribu commit, dengan ukuran repository \~246MiB. Tentunya,
+tidak semua commit akan digunakan. Walaupun repository ini@neovim_repo
+menggunakan standar Conventional Commits, tidak semua format pesan mengikuti
+standar ini. Selain itu, penelitian ini hanya melingkupi tipe commit `fix` dan
+`feat`. Sehingga penyaringan commit-commit perlu dilakukan pada tahap
+_preprocessing_ untuk kedua kriteria tersebut. Tahap _preprocessing_ juga
+bertanggung jawab untuk merancang struktur dataset yang diinginkan, masukan data
+pada tahap _preprocessing_ merupakan potongan perubahan kode serta pesan terkait
+perubahan tersebut. Sehingga, potongan perubahan kode akan dipetakan ke kolom
+fitur `diff` pada dataset; sedangkan, pesan perubahan commit akan berguna untuk
+mengisi kolom-kolom label (yaitu `feat`, `fix` dan `breaking`). Untuk memetakan
+kolom-kolom label dari pesan perubahan commit, analisa pesan tersebut perlu
+dilakukan dengan pendekatan ekspresi reguler@regex.
 
 == Klasifikasi <classification-method>
 
