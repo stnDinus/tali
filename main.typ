@@ -395,4 +395,34 @@ pada penelitian ini.
 
 = Kesimpulan
 
+== Penelitian Selanjutnya
+
+Model yang dilatih pada penelitian ini hanya melingkupi perubahan-perubahan pada
+repository Neovim@neovim_repo. Walaupun repository ini memiliki berbagai ragam
+bahasa kode yang digunakan (seperti Vim Script, Lua, C, Python, Shell, dll).
+Untuk meningkatkan kinerja model pada analisa bahasa-bahasa lainnya, penelitian
+lanjut dapat melakukan pelatihan pada berbagai repository dengan bahasa kode
+yang berbeda. Selain itu, penelitian ini hanya mempertimbangkan dua tipe
+perubahan yang paling generik (`fix` dan `feat`); walaupun, terdapat berbagai
+macam perubahan lain yang sering digunakan (seperti `doc`, `chore` atau
+`refactor`). Standar Conventional Commit tidak memberi limitasi untuk tipe yang
+dapat digunakan. Penelitian selanjutnya juga dapat merujuk ke generasi tipe
+commit (baru maupun yang sudah ada) tergantung kebutuhan perubahan repository.
+Lingkup dari penelitian ini juga tidak mempertimbangkan deskripsi rinci dari
+sebuah pesan commit. Deskripsi rinci tersebut dapat digunakan sebagai parameter
+atau fitur klasifikasi; walaupun, pengembang harus menulis rincian tersebut
+terlebih dahulu. Untuk menanggulangi sifat ini, proses generasi deskripsi rinci
+juga dapat dilakukan menggunakan transformer CodeT5+ atau model-model LLM
+lainnya. Sedangkan untuk mempermudah dan meningkatkan sifat intuitif dari
+penggunaan model pada penelitian ini, sebuah _wrapper_ antarmuka pengguna (UI)
+dapat dikembangkan. Antarmuka yang dikembangkan sebaiknya berbentuk setara
+dengan bentuk utama antarmuka Git, yaitu bentuk Command Line Interface (CLI).
+
+// TODO: penelitian selanjutnya
+// - categorical wrapper (pos-processing)
+
 #bibliography("refs.bib")
+
+// TODO: catatan uas li
+// - hasil merupakan hipotesa
+// - metode penulisan (citation, typst, etc)
