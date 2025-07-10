@@ -461,13 +461,14 @@ model tercantum pada @model-perf berikut.
 
 #figure(
   table(
-    columns: 4,
-    table.header([Label], [Presisi], [Recall], [F1-Score]),
-    `feat`, $0.91$, $0.88$, $0.89$,
-    `fix`, $0.87$, $0.90$, $0.88$,
-    `breaking`, $0.75$, $0.68$, $0.71$,
+    columns: 5,
+    table.header([Label], [Akurasi], [Presisi], [Recall], [F1-Score]),
+    `feat`, $0.88$, $0.85$, $0.85$, $0.85$,
+    `fix`, $0.86$, $0.86$, $0.82$, $0.84$,
+    `breaking`, $0.94$, $0.71$, $0.60$, $0.65$,
   ),
-  caption: [Nilai presisi, recall dan F1 setelah proses _finetuning_ model],
+  caption: [Nilai akurasi, presisi, recall dan F1 setelah proses _finetuning_
+    model],
 ) <model-perf>
 
 = Kesimpulan
