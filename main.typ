@@ -432,6 +432,25 @@ $ <b_notation>
 
 = Hasil dan Pembahasan
 
+Dari proses penambangan data pada repository Neovim, didapatkan berbagai macam
+atribut commit yang diperoleh. Pembagian commit-commit dapat divisualisasikan
+sebagai @dataset_sankey.
+
+#figure(image("dataset_sankey.svg"), caption: [Visualisasi pembagian
+  commit-commit pada repository Neovim dengan identifikasi commit terakhir
+  `fccd016a0f`]) <dataset_sankey>
+
+Dari @dataset_sankey, diperoleh bahwa hanya $~23$ ribu dari $~32$ ribu commit
+dapat digunakan sebagai data _finetuning_ dan testing model. Hal ini disebabkan
+commit-commit yang memiliki label `feat`, `fix` atau `breaking` hanya dapat
+diperoleh dari commit-commit dengan format Conventional Commits. Dari $~23$ ribu
+baris data yang dapat terpakai, seluruhnya dapat digunakan untuk training label
+`breaking`, walaupun jumlah commit merusak berjumlah lebih kecil dari jumlah
+commit tidak merusak dengan nilai signifikan. Sedangkan, untuk label `feat` dan
+`fix` hanya $~3$ ribu data dapat digunakan untuk training model, dengan $<2$
+ribu data untuk label `feat` dan $~2$ ribu data untuk label `fix`. Hal ini
+dikarenakan $~21$ ribu commit bukan bertipe selain `feat` atau `fix`.
+
 = Kesimpulan
 
 == Penelitian Selanjutnya
@@ -459,6 +478,8 @@ dengan bentuk utama antarmuka Git, yaitu bentuk Command Line Interface (CLI).
 
 // TODO: penelitian selanjutnya
 // - categorical wrapper (pos-processing)
+// - correlation between the likeliness of breaking changes and feat types
+// - bias neovim
 
 #bibliography("refs.bib")
 
