@@ -153,7 +153,11 @@ akan dibahas pada @classification-method. Model-model transformer umumnya
 memiliki bagian arsitektur encoder, yang bekerja untuk memetakan masukan menjadi
 token yang dapat dipahami oleh sebuah komputer dan bagian arsitektur decoder
 yang bekerja untuk memetakan kembali token-token yang telah diproses menjadi
-tipe keluaran yang diinginkan@Tunstall2022-iq.
+tipe keluaran yang diinginkan@Tunstall2022-iq#footnote[Pendekatan
+  encoder-decoder tidak hanya identik dengan transformer, pendekatan ini
+  dikembangkan pertama dalam model seq2seq@seq2seq, namun karakteristik
+  model-model berbasis transformer identik dengan penerapan _attention layer_
+  yang digunakan untuk memberi bobot kepentingan masing-masing token@Huyen2024-xm].
 
 == Penelitian Terkait
 
