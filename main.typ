@@ -67,7 +67,20 @@ pengembang perangkat lunak untuk mengotomatiskan sebagian proses penulisan pesan
 saat perancangan sebuah commit. Selain itu, proses otomatisasi pada umumnya juga
 menimbulkan standardisasi; sehingga, penelitian ini juga dapat berguna untuk
 membantu khususnya pengembang-pengembang pemula untuk menulis pesan commit
-berstandar.
+berstandar. Selain itu, penelitian ini juga akan memberikan contoh penerapan
+dan wawasan mengenai proses klasifikasi menggunakan model berbasis transformer,
+yang pada umumnya digunakan untuk generasi teks.
+
+Alasan penggunaan model berbasis transformer untuk melakukan
+klasifikasi$dash.em$walaupun tidak intuitif$dash.em$dikarenakan model-model
+transformer dapat memperhitungkan konteks dari sebuah fitur teks yang diberikan.
+Sehingga, klasifikasi dilakukan bukan dengan fitur-fitur yang di perlu
+di-ekstraksi dari sebuah pesan commit (seperti frekuensi kata, panjang teks, dan
+lain-lain), namun langsung dari pesan commit tersebut sendiri. Metode ini
+meringankan beban kerja dari proses penambangan data (khususnya pada tahap
+_feature extraction_) dan juga dapat menambah kinerja dari hasil klasifikasi
+yang dilakukan. Model yang digunakan akan dibahas secara lebih rinci pada
+@model.
 
 Pesan untuk sebuah commit berbentuk teks dengan format bebas. Untuk memberi
 keseragaman pesan commit terdapat sebuah standar baru bernama Conventional
@@ -147,18 +160,6 @@ yang dapat dilakukan dari 2 tipe ke 4 tipe seperti yang dicantumkan pada @types.
   caption: "Tipe commit yang akan diklasifikasikan",
 ) <types>
 
-Untuk melakukan klasifikasi tipe commit, model-model _machine learning_ berbasis
-transformer akan digunakan. Penjelasan alasan penggunaan model-model transformer
-akan dibahas pada @classification-method. Model-model transformer umumnya
-memiliki bagian arsitektur encoder, yang bekerja untuk memetakan masukan menjadi
-token yang dapat dipahami oleh sebuah komputer dan bagian arsitektur decoder
-yang bekerja untuk memetakan kembali token-token yang telah diproses menjadi
-tipe keluaran yang diinginkan@Tunstall2022-iq#footnote[Pendekatan
-  encoder-decoder tidak hanya identik dengan transformer, pendekatan ini
-  dikembangkan pertama dalam model seq2seq@seq2seq, namun karakteristik
-  model-model berbasis transformer identik dengan penerapan _attention layer_
-  yang digunakan untuk memberi bobot kepentingan masing-masing token@Huyen2024-xm].
-
 == Penelitian Terkait
 
 GCC (Git Change Classifier) merupakan alat yang juga mengklasifikasikan
@@ -211,17 +212,19 @@ tersebut memiliki ketergantungan dengan pesan commit yang telah tertulis.
         - `breaking`
       ])
       let t5p = node.with()
-      t5p(name: <t52>, (7, 0), [CodeT5+])
+      t5p(name: <t51>, (6, -0.5), [CodeT5+ `feat`])
+      t5p(name: <t52>, (6, 0), [CodeT5+ `fix`])
+      t5p(name: <t53>, (6, 0.5), [CodeT5+ `breaking`])
 
       edge(<gh>, <preproc>, "->")
       edge(<preproc>, <ds2>, "->")
-      edge(<ds2>, <t52>, "->", bend: 15deg, [$90%$ training])
-      edge(<ds2>, <t52>, "->", bend: -15deg, [$10%$ testing])
+      edge(<ds2>, <classification>, "->", bend: 15deg, [$90%$ training])
+      edge(<ds2>, <classification>, "->", bend: -15deg, [$10%$ testing])
 
-      node(inset: 3.2em, enclose: ((4, 0), (7, 0)), place(
+      node(enclose: (<t51>, <t52>, <t53>), name: <classification>, place(
         bottom + center,
-        dy: 4.5em,
-      )[Klasifikasi])
+        dy: 2em,
+      )[_Finetuning_])
       node(
         inset: 1.5em,
         enclose: (<gh>, <preproc>, <ds2>),
@@ -279,13 +282,18 @@ _breaking change_ atau perubahan merusak.
 #figure(
   table(
     columns: 4,
-    table.header([diff], [feat], [fix], [breaking]),
+    table.header([`diff`], [`feat`], [`fix`], [`breaking`]),
 
-    [`diff --git a/ru`$dots$], [0.64], [0.21], [0.16],
+    [`diff --git a/ru`$dots$], [1.0], [0.0], [0.0],
     ..for i in range(4) { ([$dots.v$],) }
   ),
   caption: [Contoh struktur dataset yang digunakan],
 ) <dataset_shape>
+
+Pembagian label menjadi 3 kategori terpisah dilakukan karena sebuah commit dapat
+bersifat sebagai perubahan penambahan fitur dan perbaikan kecacatan sekaligus,
+atau bukan keduanya. Selain itu ketiga label juga bersifat independen dari satu
+sama lain.
 
 == Penambangan Data
 
@@ -309,7 +317,92 @@ mengisi kolom-kolom label (yaitu `feat`, `fix` dan `breaking`). Untuk memetakan
 kolom-kolom label dari pesan perubahan commit, analisa pesan tersebut perlu
 dilakukan dengan pendekatan ekspresi reguler@regex.
 
-== Klasifikasi <classification-method>
+// TODO: CodeT5+ only supports: c, c++, c-sharp, go, java, javascript, php, python, ruby.
+
+== Model yang digunakan <model>
+
+Seperti yang tercantum pada bagian-bagian sebelumnya, model yang digunakan pada
+penelitian ini merupakan sebuah model berbasis transformer. Model-model
+transformer umumnya memiliki bagian arsitektur encoder, yang bekerja untuk
+memetakan masukan menjadi token yang dapat dipahami oleh sebuah komputer dan
+bagian arsitektur decoder yang bekerja untuk memetakan kembali token-token yang
+telah diproses menjadi tipe keluaran yang
+diinginkan@Tunstall2022-iq#footnote[Pendekatan encoder-decoder tidak hanya
+  identik dengan transformer, pendekatan ini dikembangkan pertama dalam model
+  seq2seq@seq2seq, namun karakteristik model-model berbasis transformer identik
+  dengan penerapan _attention layer_ yang digunakan untuk memberi bobot
+  kepentingan masing-masing token@Huyen2024-xm].
+
+Tiga model yang dipertimbangkan untuk mengklasifikasikan perubahan pada
+penelitian ini yaitu CodeBERT@codebert, CodeT5@codet5 dan CodeT5+@codet5p.
+CodeBERT merupakan perkembangan dari BERT (Bidirectional Encoder Representations
+from Transformer), model transformer yang identik dengan sifat pemahaman dua
+arah (_bidirectional_), sehingga model ini memiliki keunggulan di pemahaman
+konteks. Model-model BERT pada umumnya juga hanya mengimplementasikan bagian
+encoder dari sebuah transformer, sehingga sangat cocok digunakan untuk proses
+klasifikasi. CodeBERT dapat mengklasifikasikan kecacatan pada perangkat lunak
+dengan akurasi antara 62.08%@codet5 dan 64.31%@gfsa. Sesuai dengan waktu
+publikasi dokumen penelitian-nya, model ini terbit padat tahun 2020 oleh
+peneliti-peneliti di Microsoft. Sedangkan CodeT5 merupakan model transformer
+lebih baru dibandingkan dengan CodeBERT, model ini diterbitkan pada tahun 2021
+oleh tim peneliti di Salesforce. CodeT5 merupakan penerusan dari model
+transformer T5 yang pertama diterbitkan oleh Google pada tahun 2019@t5.
+Model-model berbasis T5 umumnya mengimplementasikan encoder dan decoder,
+sehingga penggunaan model-model ini untuk proses klasifikasi kurang tepat.
+Namun, CodeT5 memiliki nilai akurasi deteksi kecacatan yang lebih tinggi secara
+rata-rata: 63.25%@gfsa hingga 65.78%@codet5, tergantung dengan jumlah parameter
+antara penyesuaian lain. Perkembangan dari CodeT5: CodeT5+, diterbitkan pada
+tahun 2023 juga oleh tim peneliti Salesforce. Model ini meningkatkan akurasi
+deteksi kecacatan dari CodeT5 secara signifikan dengan nilai antara
+66.1%@codet5p hingga 66.7%@codet5p.
+
+// TODO: bias peneliti
+
+#figure(
+  table(
+    columns: 4,
+    table.header(
+      [Model],
+      [Arsitektur Transformer],
+      [Akurasi Deteksi Kecacatan],
+      [Tahun Terbit],
+    ),
+
+    [CodeBERT], [Encoder], [62.08% - 64.31%], [2020],
+    [CodeT5], [Encoder dan decoder], [63.25% - 65.78%], [2021],
+    [CodeT5+], [Encoder, decoder atau keduanya], [66.1% - 66.7%], [2023],
+  ),
+  caption: "Perbandingan model-model yang dipertimbangkan",
+) <models_cmp>
+
+Seperti yang tercantum pada @models_cmp, model dengan rentang akurasi tertinggi
+saat digunakan untuk mendeteksi kecacatan merupakan CodeT5+. Selain itu, model
+ini juga memiliki tahun terbit terkini yang dapat mengklasifikasikan model ini
+sebagai model _state of the art_. Sehingga, model inilah yang akan digunakan
+pada penelitian ini. Karena CodeT5+ hanyalah model pondasi yang tidak memiliki
+tujuan spesifik, proses _finetuning_ akan dilakukan untuk mengarahkan model
+tersebut untuk melakukan proses klasifikasi yang diinginkan. Secara lebih
+spesifik, proses _finetuning_ yang dilakukan adalah proses _supervised
+finetuning_@Huyen2024-xm[pp. 80]. Proses ini melibatkan data masukan sebagai
+contoh (training) label-label yang diinginkan dari fitur-fitur yang diberikan;
+sehingga. Sehingga, 90% data di dataset yang telah diperoleh dari langkah
+penambahan data akan digunakan untuk proses ini.
+
+Untuk menghasilkan kolom-kolom label majemuk (sesuai @dataset_shape), pendekatan
+_Multi-Label Classification_@Tsoumakas2008-tk (MLC) akan digunakan. Untuk itu,
+tahap klasifikasi akan dibagi menjadi 3 tahap terpisah untuk masing-masing
+label (`feat`, `fix` dan `breaking`). Karena masing-masing label bersifat
+independen satu sama lain, metode pendekatan Binary Relevance (BR) akan
+digunakan untuk mengklasifikasikan masing-masing label@Zhang2018-uc.
+
+Walaupun pada dataset yang diberikan, label-label bertipe biner kontinu (sesuai
+@dataset_shape) dan karena semua label bersifat independen, dapat terjadi kasus
+dimana, jika label diimplementasikan dengan tipe biner diskret (yaitu 0 dan
+1), kedua label `feat` dan `fix` berisi nilai 1. Oleh karena itu, label-label
+pada dataset diimplementasikan dengan tipe kontinu (yaitu rentang
+0.0 hingga 1.0). Sehingga pada proses _finetuning_, model harus diinstruksikan
+untuk memberi label dengan nilai bobot kepercayaan dan tidak sepenuhnya meniru
+label-label pada dataset yang diberikan.
 
 Seperti yang tercantum di @t_notation, tipe perubahan $P$ diklasifikasikan
 sebagai perubahan `feat` $p_1$, jika nilai label `feat` $l_1$ lebih dari nilai
@@ -337,68 +430,6 @@ $
   )
 $ <b_notation>
 
-Metode klasifikasi yang digunakan untuk penelitian ini melibatkan penggunaan
-model transformer. Penggunaan model-model transformer dikarenakan model-model
-ini dapat memahami konteks dari sebuah kutipan kode, sifat ini sangat penting
-untuk menentukan kategori tipe commit yang akan diklasifikasikan.
-
-Pada lingkup penelitian ini, bagian decoder dari sebuah model transformer tidak
-relevan, dikarenakan untuk proses klasifikasi tidak diperlukan keluaran spesifik
-yang tidak dapat diproses oleh algoritma sederhana. Sehingga penggunaan sebuah
-decoder, yang umumnya memiliki kompleksitas algoritma yang lebih tinggi hanya
-akan memboroskan sumber daya dan waktu komputasi. Tiga model yang
-dipertimbangkan untuk mengklasifikasikan perubahan pada penelitian ini yaitu
-CodeBERT@codebert, CodeT5@codet5 dan CodeT5+@codet5p.
-
-CodeBERT merupakan perkembangan dari BERT (Bidirectional Encoder Representations
-from Transformer), model transformer yang identik dengan sifat pemahaman dua
-arah (_bidirectional_), sehingga model ini memiliki keunggulan di pemahaman
-konteks. Model-model BERT pada umumnya juga hanya mengimplementasikan bagian
-encoder dari sebuah transformer, sehingga sangat cocok digunakan untuk proses
-klasifikasi. CodeBERT dapat mengklasifikasikan kecacatan pada perangkat lunak
-dengan akurasi antara 62.08%@codet5 dan 64.31%@gfsa. Sesuai dengan waktu
-publikasi dokumen penelitian-nya, model ini terbit padat tahun 2020 oleh
-peneliti-peneliti di Microsoft.
-
-Sedangkan CodeT5 merupakan model transformer lebih baru dibandingkan dengan
-CodeBERT, model ini diterbitkan pada tahun 2021 oleh tim peneliti di Salesforce.
-CodeT5 merupakan penerusan dari model transformer T5 yang pertama diterbitkan
-oleh Google pada tahun 2019@t5. Model-model berbasis T5 umumnya
-mengimplementasikan encoder dan decoder, sehingga penggunaan model-model ini
-untuk proses klasifikasi kurang tepat. Namun, CodeT5 memiliki nilai akurasi
-deteksi kecacatan yang lebih tinggi secara rata-rata: 63.25%@gfsa hingga
-65.78%@codet5, tergantung dengan jumlah parameter antara penyesuaian lain.
-
-Perkembangan dari CodeT5: CodeT5+, diterbitkan pada tahun 2023 juga oleh tim
-peneliti Salesforce. Model ini meningkatkan akurasi deteksi kecacatan dari
-CodeT5 secara signifikan dengan nilai antara 66.1%@codet5p hingga 66.7%@codet5p.
-Selain itu, CodeT5+ juga memberikan varian encoder dan decoder yang terpisah,
-sehingga dapat dioptimalkan untuk penggunaan klasifikasi, menggunakan varian encoder.
-
-// TODO: bias peneliti
-
-#figure(
-  table(
-    columns: 4,
-    table.header(
-      [Model],
-      [Arsitektur Transformer],
-      [Akurasi Deteksi Kecacatan],
-      [Tahun Terbit],
-    ),
-
-    [CodeBERT], [Encoder], [62.08% - 64.31%], [2020],
-    [CodeT5], [Encoder dan decoder], [63.25% - 65.78%], [2021],
-    [CodeT5+], [Encoder, decoder atau keduanya], [66.1% - 66.7%], [2023],
-  ),
-  caption: "Perbandingan model-model yang dipertimbangkan",
-) <models_cmp>
-
-Seperti yang tercantum pada @models_cmp, model dengan rentang akurasi tertinggi
-saat digunakan untuk mendeteksi kecacatan merupakan CodeT5+. Selain itu, model
-ini juga memiliki tahun terbit terkini yang dapat mengklasifikasikan model ini
-sebagai model _state of the art_. Sehingga, model inilah yang akan digunakan
-pada penelitian ini.
 = Hasil dan Pembahasan
 
 = Kesimpulan
