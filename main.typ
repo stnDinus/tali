@@ -530,7 +530,12 @@ Pada penelitian ini, model berbasis transformer CodeT5+ digunakan untuk
 mengklasifikasikan berbagai atribut dari perubahan yang terdaji pada sebuah
 commit. Kemampuan model untuk memahami konteks perubahan kode secara langsung
 dari fitur teks yang diberikan terbukti efektif, dan mendukung argumen awal
-untuk menggunakan model berbasis transformer.
+untuk menggunakan model berbasis transformer. Walaupun nilai kinerja model cukup
+memuaskan, dengan nilai rentang akurasi antara 88% hingga 94%, terdapat berbagai
+penyempurnaan yang dapat dilakukan. Salah satu peningkatan yang dapat dilakukan
+terletak pada bias kesenjangan label `breaking` pada dataset yang digunakan.
+Terdapat juga berbagai perbaikan yang dapat diterapkan untuk penelitian
+selanjutnya yang akan dibahas pada bagian berikut.
 
 == Penelitian Selanjutnya
 
