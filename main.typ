@@ -473,6 +473,15 @@ model tercantum pada @model-perf berikut.
 
 = Kesimpulan
 
+Kemampuan model untuk memahami konteks perubahan kode secara langsung dari fitur
+teks yang diberikan terbukti efektif, dan mendukung argumen awal untuk
+menggunakan model berbasis transformer. Nilai-nilai kinerja yang dihasilkan oleh
+model setelah proses _finetuning_ untuk label `feat` dan `fix` cukup seimbang.
+Namun, nilai kinerja akurasi label `breaking` tidak seimbang dengan nilai-nilai
+kinerja lainnya untuk label ini (lihat @model-perf). Hal ini dapat disebabkan
+oleh bias dataset yang memiliki label yang secara mayoritas tidak merusak (lihat
+@dataset_sankey).
+
 == Penelitian Selanjutnya
 
 Model yang dilatih pada penelitian ini hanya melingkupi perubahan-perubahan pada
