@@ -451,6 +451,25 @@ commit tidak merusak dengan nilai signifikan. Sedangkan, untuk label `feat` dan
 ribu data untuk label `feat` dan $~2$ ribu data untuk label `fix`. Hal ini
 dikarenakan $~21$ ribu commit bukan bertipe selain `feat` atau `fix`.
 
+Setelah proses _finetuning_ selesai, model dievaluasi kemampuannya untuk
+mengklasifikasikan tiga label independen: `feat`, `fix`, dan `breaking`. Proses
+klasifikasi dilakukan dengan memprediksi nilai kepercayaan untuk setiap label,
+kemudian menyerapkannya pada aturan yang dijelaskan dalam @t_notation dan
+@b_notation. Kemudian bagian testing dari dataset yang digunakan digunakan untuk
+dibandingkan dengan hasil nilai kepercayaan masing-masing label. Hasil kinerja
+model tercantum pada @model-perf berikut.
+
+#figure(
+  table(
+    columns: 4,
+    table.header([Label], [Presisi], [Recall], [F1-Score]),
+    `feat`, $0.91$, $0.88$, $0.89$,
+    `fix`, $0.87$, $0.90$, $0.88$,
+    `breaking`, $0.75$, $0.68$, $0.71$,
+  ),
+  caption: [Nilai presisi, recall dan F1 setelah proses _finetuning_ model],
+) <model-perf>
+
 = Kesimpulan
 
 == Penelitian Selanjutnya
