@@ -19,7 +19,7 @@
 #set enum(indent: 1em)
 
 #show: abdimasku.with(
-  title: [Klasifikasi Perubahan _Repository_ Git Menggunakan Transformer
+  title: [Klasifikasi Perubahan Repository Git Menggunakan Transformer
     CodeT5+],
   pub_date: datetime.today(),
   authors: (
