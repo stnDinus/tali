@@ -518,16 +518,19 @@ model tercantum pada @model-perf berikut.
     model],
 ) <model-perf>
 
+Nilai-nilai kinerja yang dihasilkan oleh model setelah proses _finetuning_
+untuk label `feat` dan `fix` cukup seimbang. Namun, nilai kinerja akurasi label
+`breaking` tidak seimbang dengan nilai-nilai kinerja lainnya untuk label ini
+(lihat @model-perf). Hal ini dapat disebabkan oleh bias dataset yang memiliki
+label yang secara mayoritas tidak merusak (lihat @dataset_sankey).
+
 = Kesimpulan
 
-Kemampuan model untuk memahami konteks perubahan kode secara langsung dari fitur
-teks yang diberikan terbukti efektif, dan mendukung argumen awal untuk
-menggunakan model berbasis transformer. Nilai-nilai kinerja yang dihasilkan oleh
-model setelah proses _finetuning_ untuk label `feat` dan `fix` cukup seimbang.
-Namun, nilai kinerja akurasi label `breaking` tidak seimbang dengan nilai-nilai
-kinerja lainnya untuk label ini (lihat @model-perf). Hal ini dapat disebabkan
-oleh bias dataset yang memiliki label yang secara mayoritas tidak merusak (lihat
-@dataset_sankey).
+Pada penelitian ini, model berbasis transformer CodeT5+ digunakan untuk
+mengklasifikasikan berbagai atribut dari perubahan yang terdaji pada sebuah
+commit. Kemampuan model untuk memahami konteks perubahan kode secara langsung
+dari fitur teks yang diberikan terbukti efektif, dan mendukung argumen awal
+untuk menggunakan model berbasis transformer.
 
 == Penelitian Selanjutnya
 
