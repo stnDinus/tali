@@ -18,9 +18,6 @@
 #set list(indent: 1em)
 #set enum(indent: 1em)
 
-// TODO:
-// - abstract
-// - keywords
 #show: abdimasku.with(
   title: [Klasifikasi Perubahan _Repository_ Git Menggunakan Transformer
     CodeT5+],
@@ -34,6 +31,56 @@
   ),
   departments: (
     "Fakultas Ilmu Komputer, Universitas Dian Nuswantoro Semarang",
+  ),
+  abstract: (
+    [
+      Mengikuti perkembangan model-model machine learning berbasis transformer
+      yang pesat, penelitian ini akan menerapkan implementasi transformer _State of
+      The Art_ CodeT5+ untuk mengklasifikasikan tipe commit Git dengan format
+      Conventional Commits. CodeT5+ dapat memperhitungkan konteks dari potongan
+      perubahan kode yang dijadikan fitur dari dataset dalam penelitian ini.
+      Klasifikasi yang dilakukan pada penelitian ini menggunakan pendekatan
+      _Multi-Label Classification_ (MLC) yang melibatkan 3 label independen. Setelah
+      proses _finetuning_, CodeT5+ dapat memprediksikan atribut-atribut dari sebuah
+      commit dengan rentang nilai akurasi antara 88% dan 94%. Tujuan penelitian
+      ini adalah untuk membantu pengembang perangkat lunak mengotomatiskan penulisan
+      tipe commit dalam sebuah pesan commit dan untuk memberi wawasan mengenai
+      penggunaan model-model berbasis transformer untuk melakukan proses
+      klasifikasi.
+    ],
+    [
+      Following the rapid development of transformer-based machine learning
+      models, this research implements the State of The Art CodeT5+ transformer to
+      classify Git commits using the Conventional Commits format. CodeT5+ is able to
+      interpret the context of a given code change snippet which will be used as the
+      dataset feature used in this research. The classification process used
+      within this research applies a _Multi-Label Classification_ (MLC) approach
+      involving 3 independent labels. After _finetuning_, CodeT5+ is able to infer
+      the attributes of a given commit with a range of accuracy values between 88%
+      and 94%. This research aims to help developers automate the process of writing
+      commit types within a commit message, as well as to provide insight towards
+      the usage of transformers-based models for classification purposes.
+    ],
+  ),
+  keywords: (
+    (
+      [Pengembangan Perangkat Lunak],
+      [Git],
+      [Version Control],
+      [Conventional Commits],
+      [Machine Learning],
+      [Klasifikasi],
+      [CodeT5+],
+    ),
+    (
+      [Software Engineering],
+      [Git],
+      [Version Control],
+      [Conventional Commits],
+      [Machine Learning],
+      [Classification],
+      [CodeT5+],
+    ),
   ),
 )
 
