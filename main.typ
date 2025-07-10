@@ -14,6 +14,10 @@
   if y == 0 { thead_fill }
 })
 
+#show raw.where(block: true): set block(stroke: 1pt, inset: 1em)
+#set list(indent: 1em)
+#set enum(indent: 1em)
+
 // TODO:
 // - abstract
 // - keywords
